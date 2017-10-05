@@ -1,0 +1,5 @@
+{
+  "recipes": {
+    "lanolin_crafting": "sirlyle.lanolin.crafting.RecipeLanolinFactory"
+  }
+}
