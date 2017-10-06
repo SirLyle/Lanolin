@@ -2,6 +2,7 @@ package sirlyle.lanolin.proxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import sirlyle.lanolin.Config;
 import sirlyle.lanolin.ModCrafting;
 import sirlyle.lanolin.ModItems;
+import sirlyle.lanolin.events.EventHandlerCommon;
 
 import java.io.File;
 
@@ -22,6 +24,8 @@ public class CommonProxy {
         File directory = e.getModConfigurationDirectory();
         config = new Configuration(new File(directory.getPath(), "lanolin.cfg"));
         Config.readConfig();
+
+        MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
     }
 
     public void init(FMLInitializationEvent e) {

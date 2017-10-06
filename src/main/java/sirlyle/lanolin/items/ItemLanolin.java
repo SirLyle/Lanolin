@@ -6,7 +6,9 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.relauncher.Side;
@@ -37,4 +39,15 @@ public class ItemLanolin extends Item {
     private String getToolTipData(){
         return  I18n.format("item.lanolin.lanolin.tooltip");
     }
+
+
+
+    public static boolean canCraftWith(ItemStack itemStack){
+        return canCraftWith(itemStack.getItem());
+    }
+    public static boolean canCraftWith(Item item){
+        //TODO Implement a black list here.
+        return item instanceof ItemArmor || item instanceof ItemTool;
+    }
+
 }

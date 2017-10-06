@@ -2,8 +2,10 @@ package sirlyle.lanolin.crafting;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.world.World;
@@ -34,29 +36,29 @@ public class RecipeLanolinFactory implements IRecipeFactory{
         @Nonnull
         public ItemStack getCraftingResult(InventoryCrafting inv) {
             int lanolinCount = 0;
-            ItemStack armorStack = null;
+            ItemStack craftStack = null;
             for(int i = 0; i < inv.getSizeInventory(); i++){
                 ItemStack tempStack = inv.getStackInSlot(i);
                 if(tempStack.getItem().getRegistryName().equals(ModItems.itemLanolin.getRegistryName()))
                     lanolinCount++;
-                else if(tempStack.getItem() instanceof ItemArmor && armorStack == null) {
-                    armorStack = tempStack.copy();
+                else if(ItemLanolin.canCraftWith(tempStack) && craftStack == null) {
+                    craftStack = tempStack.copy();
                 }
                 else if(tempStack != ItemStack.EMPTY)
                     return ItemStack.EMPTY;
             }
-            if (armorStack == ItemStack.EMPTY || !(armorStack.getItem() instanceof ItemArmor)) {
+            if (craftStack == ItemStack.EMPTY || !ItemLanolin.canCraftWith(craftStack)) {
                 return ItemStack.EMPTY;
             }
             // Copy Existing NBT
-            if(armorStack.hasTagCompound()) {
-                if(armorStack.getTagCompound().hasKey("lanolin")){
+            if(craftStack.hasTagCompound()) {
+                if(craftStack.getTagCompound().hasKey("lanolin")){
                     // Increase existing lanolin count
-                    lanolinCount += armorStack.getTagCompound().getInteger("lanolin");
+                    lanolinCount += craftStack.getTagCompound().getInteger("lanolin");
                 }
             }
-            armorStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0,15)));
-            return armorStack;
+            craftStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0,15)));
+            return craftStack;
         }
 
         @Override
@@ -82,7 +84,7 @@ public class RecipeLanolinFactory implements IRecipeFactory{
                 ItemStack tempStack = inv.getStackInSlot(i);
                 if(tempStack.getItem() instanceof ItemLanolin)
                     lanolinCount++;
-                else if(tempStack.getItem() instanceof ItemArmor) {
+                else if(ItemLanolin.canCraftWith(tempStack)) {
                     armorCount++;
                     if(armorCount > 1){
                         return false;

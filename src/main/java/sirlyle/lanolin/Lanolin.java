@@ -29,7 +29,6 @@ public class Lanolin {
     public void preInit(FMLPreInitializationEvent event) {
         logger = event.getModLog();
         proxy.preInit(event);
-        MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
     }
 
     @Mod.EventHandler
