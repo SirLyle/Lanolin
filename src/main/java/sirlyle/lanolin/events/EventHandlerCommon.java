@@ -2,31 +2,22 @@ package sirlyle.lanolin.events;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.Level;
-import sirlyle.lanolin.Lanolin;
+import sirlyle.lanolin.Config;
 
 public class EventHandlerCommon {
     @SubscribeEvent
     public void updateEntity(LivingEvent.LivingUpdateEvent event){
-        if(event.getEntity() instanceof EntityPlayer && event.getEntity().getAir() <= 280){
+        if(event.getEntity() instanceof EntityPlayer && event.getEntity().getAir() <= 300 - Config.ARMOR_TICKS_PER_LANOLIN){
             // The entity is a player and is not at full air
             if(event.getEntity().isInsideOfMaterial(Material.WATER)){
                 for(int i = 0; i < 4; i++){

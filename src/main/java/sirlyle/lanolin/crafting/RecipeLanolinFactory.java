@@ -2,7 +2,6 @@ package sirlyle.lanolin.crafting;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
@@ -13,6 +12,7 @@ import net.minecraftforge.common.crafting.IRecipeFactory;
 import net.minecraftforge.common.crafting.JsonContext;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import org.apache.logging.log4j.Level;
+import sirlyle.lanolin.Config;
 import sirlyle.lanolin.Lanolin;
 import sirlyle.lanolin.ModItems;
 import sirlyle.lanolin.items.ItemLanolin;
@@ -57,7 +57,12 @@ public class RecipeLanolinFactory implements IRecipeFactory{
                     lanolinCount += craftStack.getTagCompound().getInteger("lanolin");
                 }
             }
-            craftStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0,15)));
+            if(craftStack.getItem() instanceof ItemArmor)
+                craftStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0, Config.MAX_LANOLIN_ARMOR)));
+            else if(craftStack.getItem() instanceof ItemTool)
+                craftStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0, Config.MAX_LANOLIN_TOOLS)));
+            else // Unconfigured item, that passed
+                craftStack.setTagInfo("lanolin", new NBTTagByte((byte) clamp(lanolinCount,0, 15)));
             return craftStack;
         }
 
@@ -79,21 +84,21 @@ public class RecipeLanolinFactory implements IRecipeFactory{
         @Override
         public boolean matches(InventoryCrafting inv, World world){
             int lanolinCount = 0;
-            int armorCount = 0;
+            int craftCount = 0;
             for(int i = 0; i < inv.getSizeInventory(); i++){
                 ItemStack tempStack = inv.getStackInSlot(i);
                 if(tempStack.getItem() instanceof ItemLanolin)
                     lanolinCount++;
                 else if(ItemLanolin.canCraftWith(tempStack)) {
-                    armorCount++;
-                    if(armorCount > 1){
+                    craftCount++;
+                    if(craftCount > 1){
                         return false;
                     }
                 }
                 else if(tempStack != ItemStack.EMPTY)
                     return false;
             }
-            return lanolinCount > 0 && armorCount == 1;
+            return lanolinCount > 0 && craftCount == 1;
         }
 
     }

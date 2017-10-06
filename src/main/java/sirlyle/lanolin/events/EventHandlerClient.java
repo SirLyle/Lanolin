@@ -1,7 +1,6 @@
 package sirlyle.lanolin.events;
 
 import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;

@@ -1,6 +1,5 @@
 package sirlyle.lanolin;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -8,7 +7,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
 import sirlyle.lanolin.proxy.CommonProxy;
-import sirlyle.lanolin.events.EventHandlerCommon;
 
 @Mod(modid = Lanolin.MODID, name = Lanolin.MODNAME, version = Lanolin.MODVERSION, acceptedMinecraftVersions = "[1.12, 1.13)", useMetadata = true)
 public class Lanolin {
